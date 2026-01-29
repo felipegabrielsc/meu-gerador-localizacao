@@ -40,7 +40,7 @@
 
         function enviarParaServidor(lat, lon) {
             // Exemplo simples: Envia via fetch para um endpoint (substitua pela sua URL)
-            fetch('https://seu-servidor.com/api/localizacao', {
+            fetch('https://meu-gerador-localizacao.vercel.app/api/localizacao', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ latitude: lat, longitude: lon })
