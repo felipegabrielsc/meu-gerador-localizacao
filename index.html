@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Compartilhar Localização</title>
+</head>
+<body>
+    <h1>Compartilhar Localização</h1>
+    <p>Clique no botão abaixo para permitir o acesso à sua localização (se você concordar).</p>
+    <button onclick="obterLocalizacao()">Permitir e Compartilhar</button>
+    <p id="resultado"></p>
+
+    <script>
+        function obterLocalizacao() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        const lat = position.coords.latitude;
+                        const lon = position.coords.longitude;
+                        const precisao = position.coords.accuracy;
+                        
+                        // Exibe no console (para debug) ou na página
+                        console.log(`Latitude: ${lat}, Longitude: ${lon}, Precisão: ${precisao} metros`);
+                        document.getElementById('resultado').innerHTML = 
+                            `Sua localização aproximada: Latitude ${lat}, Longitude ${lon} (Precisão: ${precisao} metros).`;
+                        
+                        // Opcional: Envie para um servidor (veja Passo 2)
+                        enviarParaServidor(lat, lon);
+                    },
+                    function(error) {
+                        document.getElementById('resultado').innerHTML = 
+                            `Erro ao obter localização: ${error.message}`;
+                    }
+                );
+            } else {
+                document.getElementById('resultado').innerHTML = 
+                    "Geolocalização não é suportada neste navegador.";
+            }
+        }
+
+        function enviarParaServidor(lat, lon) {
+            // Exemplo simples: Envia via fetch para um endpoint (substitua pela sua URL)
+            fetch('https://seu-servidor.com/api/localizacao', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ latitude: lat, longitude: lon })
+            })
+            .then(response => response.json())
+            .then(data => console.log('Enviado com sucesso:', data))
+            .catch(error => console.error('Erro ao enviar:', error));
+        }
+    </script>
+</body>
+</html>
